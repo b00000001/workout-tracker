@@ -3,6 +3,10 @@ const routes = require("./controllers");
 const mongojs = require("mongojs"); // Importing MongoJS
 const logger = require("morgan"); // importing Logger
 const path = require("path");
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workouts", { useNewUrlParser: true });
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
