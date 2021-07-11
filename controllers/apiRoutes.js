@@ -13,7 +13,13 @@ router.get("/workouts", async (req, res) => {
 router.post("/workouts", async (req, res) => {
   console.log("/workouts");
   try {
-    const dbWorkoutData = await Workout.create(req.body);
+    const dbWorkoutData = await Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: { $sum: "$exercises.duration" }
+        }
+      }
+    ]);
     return res.json(dbWorkoutData);
   } catch (err) {
     console.log(err);
@@ -23,7 +29,15 @@ router.post("/workouts", async (req, res) => {
 
 router.get("/workouts/range", async (req, res) => {
   try {
-    const dbWorkoutData = await Workout.find();
+    const dbWorkoutData = await Workout.aggregate([
+      {
+        $addFields: {
+          totalDuration: { $sum: "$exercises.duration" }
+        }
+      }
+    ])
+      .sort({ _id: -1 })
+      .limit(7);
     return res.json(dbWorkoutData);
   } catch (err) {
     console.log(err);

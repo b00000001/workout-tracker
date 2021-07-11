@@ -33,7 +33,7 @@ const workoutSchema = new Schema(
         sets: {
           type: Number
         },
-        distances: {
+        distance: {
           type: Number
         }
       }
