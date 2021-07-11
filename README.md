@@ -1,5 +1,7 @@
 <h1 align='center'>Workout Tracker</h1>
 
+# [Link to App](https://ancient-mountain-60363.herokuapp.com/)
+
 # Description
 
 This is a Full stack application that allows a user to view, create and track daily workouts. This Application will allow the user to add exercises to the most recent workout plan. Add new exercises to a new workout plan. View the combined weight of a workout plan and view the duration. This application makes use of Node, Express, MongoDB and Heroku for hosting. The connection to mongo is established through MongoDB Atlas.
