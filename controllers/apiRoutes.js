@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Workout = require("../models/workout");
-router.get("/api/workouts", async (req, res) => {
+router.get("/workouts", async (req, res) => {
   try {
     const dbWorkoutData = await Workout.find();
     return res.json(dbWorkoutData);
@@ -10,16 +10,18 @@ router.get("/api/workouts", async (req, res) => {
   }
 });
 
-router.post("/api/workouts", async (req, res) => {
+router.post("/workouts", async (req, res) => {
+  console.log("/workouts");
   try {
-    const dbWorkoutData = await Workout.create({});
+    const dbWorkoutData = await Workout.create(req.body);
     return res.json(dbWorkoutData);
-  } catch (err) {}
-  console.log(err);
-  res.status(500).json(err);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
-router.get("/api/workouts/range", async (req, res) => {
+router.get("/workouts/range", async (req, res) => {
   try {
     const dbWorkoutData = await Workout.find();
     return res.json(dbWorkoutData);
@@ -29,7 +31,7 @@ router.get("/api/workouts/range", async (req, res) => {
   }
 });
 
-router.post("/api/workouts/range", async (req, res) => {
+router.post("/workouts/range", async (req, res) => {
   try {
     const dbWorkoutData = await Workout.create({});
     return res.json(dbWorkoutData);
@@ -39,16 +41,19 @@ router.post("/api/workouts/range", async (req, res) => {
   }
 });
 
-router.post("/api/workouts/:id", async (req, res) => {
+router.put("/workouts/:id", async ({ body, params }, res) => {
+  console.log(body, params);
   try {
-    const DBWorkoutData = await Workout.findByIdAndUpdate(
+    const dbWorkoutData = await Workout.findByIdAndUpdate(
       params.id,
       { $push: { exercises: body } },
       { new: true, runValidators: true }
     );
-  } catch (err) {}
-  const dbWorkoutData = await Workout.create({});
-  return res.json(dbWorkoutData);
+    res.json(dbWorkoutData);
+  } catch (err) {
+    const dbWorkoutData = await Workout.create({});
+    return res.json(dbWorkoutData);
+  }
 });
 
 module.exports = router;
